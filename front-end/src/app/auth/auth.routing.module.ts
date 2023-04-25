@@ -8,6 +8,14 @@ const routes: Routes = [
     path: '',
     component: RegisterComponent,
   },
+  // {
+  //   path: 'singin',
+  //   component: RegisterComponent,
+  // },
+  // {
+  //   path: 'singup',
+  //   component: RegisterComponent,
+  // },
 ];
 
 @NgModule({

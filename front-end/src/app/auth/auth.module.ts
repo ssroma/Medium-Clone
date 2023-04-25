@@ -1,11 +1,22 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthRoutingModule } from './auth.routing.module';
 
-import { RegisterComponent } from 'src/app/auth/components/register/register.component';
+// Ngrx
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './store/reducers';
+
+import { RegisterComponent } from './components/register/register.component';
 
 @NgModule({
-  imports: [CommonModule, AuthRoutingModule],
-  // declarations: [RegisterComponent],
+  declarations: [RegisterComponent],
+  imports: [
+    CommonModule,
+    AuthRoutingModule,
+    FormsModule,
+    ReactiveFormsModule,
+    StoreModule.forFeature('auth', reducers),
+  ],
 })
 export class AuthModule {}
