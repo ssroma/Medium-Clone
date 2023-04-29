@@ -4,6 +4,8 @@
 
 export const environment = {
   production: false,
+  // base_api_url: `https://conduit.productionready.io/api`,
+  base_api_url: `https://api.realworld.io/api/`,
 };
 
 /*

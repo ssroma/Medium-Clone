@@ -1,8 +1,11 @@
+import { RegisterRequestInterface } from './../../interfaces/register-request.inteface';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngrx/store';
-
-import { registerAction } from '../../store/actions';
+import { Store, select } from '@ngrx/store';
+import { AppStateInterface } from 'src/app/shared/interfaces/app-state.interface';
+import { isSubmittingSelector } from '../../store/selectors';
+import { registerAction } from '../../store/actions/register.action';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-register',
@@ -11,11 +14,16 @@ import { registerAction } from '../../store/actions';
 })
 export class RegisterComponent implements OnInit {
   form: FormGroup;
+  isSubmitting$: Observable<boolean>;
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<AppStateInterface>
+  ) {}
 
   ngOnInit(): void {
     this.initializedForm();
+    this.initializeValues();
   }
 
   initializedForm(): void {
@@ -26,11 +34,15 @@ export class RegisterComponent implements OnInit {
     });
   }
 
+  initializeValues(): void {
+    this.isSubmitting$ = this.store.pipe(select(isSubmittingSelector));
+  }
+
   onSubmit(): void {
     console.log('On Submit', this.form.value);
-    // const { username, email, password } = this.form.value;
-    this.store.dispatch(
-      registerAction({ request: { user: { ...this.form.value } } })
-    );
+    const request: RegisterRequestInterface = {
+      user: { ...this.form.value },
+    };
+    this.store.dispatch(registerAction({ request }));
   }
 }
